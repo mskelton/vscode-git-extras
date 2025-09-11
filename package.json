@@ -39,7 +39,7 @@
   "icon": "resources/icon.png",
   "files": [
     "out/**/*",
-    "resources/**/*",
+    "resources/**/*.png",
     "LICENSE"
   ],
   "scripts": {
