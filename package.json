@@ -1,6 +1,6 @@
 {
   "name": "vscode-git-utils",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "displayName": "Git Extras",
   "description": "Extra Git commands for VS Code",
   "repository": {
