@@ -1,0 +1,62 @@
+{
+  "private": true,
+  "name": "vscode-git-utils",
+  "displayName": "Git Utils",
+  "description": "Extra Git commands for VS Code",
+  "version": "1.0.1",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mskelton/vscode-git-utils"
+  },
+  "license": "ISC",
+  "publisher": "mskelton",
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [],
+  "contributes": {
+    "commands": [
+      {
+        "category": "Git Utils",
+        "title": "Sync",
+        "command": "git-utils.git-sync"
+      },
+      {
+        "category": "Git Utils",
+        "title": "Append",
+        "command": "git-utils.git-append"
+      },
+      {
+        "category": "Git Utils",
+        "title": "Force Push with Lease",
+        "command": "git-utils.git-push-force-with-lease"
+      }
+    ]
+  },
+  "main": "./out/extension.js",
+  "icon": "resources/icon.jpg",
+  "files": [
+    "out/**/*",
+    "resources/**/*",
+    "LICENSE"
+  ],
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p ./",
+    "watch": "tsc -watch -p ./",
+    "lint": "eslint .",
+    "fmt": "prettier --write .",
+    "fmt:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "@mskelton/eslint-config": "^9.2.0",
+    "@types/node": "^22.15.17",
+    "@types/vscode": "^1.60.0",
+    "eslint": "^9.29.0",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.3"
+  }
+}
