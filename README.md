@@ -1,4 +1,4 @@
-# VS Code Git Utils
+# Git Extras
 
 Extra Git commands for VS Code
 
