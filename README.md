@@ -4,9 +4,11 @@ Extra Git commands for VS Code
 
 ## Commands
 
-- `Git: Sync` - Sync changes to the remote repository
-- `Git: Append` - Append changes to the last commit
-- `Git: Push Force With Lease` - Run `git push --force-with-lease`
+- `Git Extras: Push` - Push changes to the remote repository
+- `Git Extras: Pull` - Pull changes from the remote repository
+- `Git Extras: Sync` - Sync changes to the remote repository
+- `Git Extras: Append` - Append changes to the last commit
+- `Git Extras: Push Force With Lease` - Run `git push --force-with-lease`
 
 ## Installation
 
@@ -14,7 +16,7 @@ Extra Git commands for VS Code
 
 1. Download the `.vsix` file
 2. Install via Command Palette: "Extensions: Install from VSIX..."
-3. Or use CLI: `code --install-extension git-utils-0.0.1.vsix`
+3. Or use CLI: `code --install-extension git-extras-0.0.1.vsix`
 
 ### Development
 

@@ -5,7 +5,7 @@
   "description": "Extra Git commands for VS Code",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mskelton/vscode-git-utils"
+    "url": "https://github.com/mskelton/vscode-git-extras"
   },
   "license": "ISC",
   "publisher": "mskelton",
@@ -19,29 +19,29 @@
   "contributes": {
     "commands": [
       {
-        "category": "Git Utils",
+        "category": "Git Extras",
         "title": "Push",
-        "command": "git-utils.push"
+        "command": "git-extras.push"
       },
       {
-        "category": "Git Utils",
+        "category": "Git Extras",
         "title": "Pull",
-        "command": "git-utils.pull"
+        "command": "git-extras.pull"
       },
       {
-        "category": "Git Utils",
+        "category": "Git Extras",
         "title": "Sync",
-        "command": "git-utils.sync"
+        "command": "git-extras.sync"
       },
       {
-        "category": "Git Utils",
+        "category": "Git Extras",
         "title": "Append",
-        "command": "git-utils.append"
+        "command": "git-extras.append"
       },
       {
-        "category": "Git Utils",
+        "category": "Git Extras",
         "title": "Force Push with Lease",
-        "command": "git-utils.push-force-with-lease"
+        "command": "git-extras.push-force-with-lease"
       }
     ]
   },

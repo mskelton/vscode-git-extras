@@ -1,20 +1,47 @@
+import { spawn } from 'node:child_process'
+import { createInterface } from 'node:readline'
+import { PassThrough } from 'node:stream'
 import * as vscode from 'vscode'
-import { spawnAsync } from './spawnAsync'
 
 export interface GitOptions {
   cwd?: string
 }
 
-export async function git(args: string[], options: GitOptions = {}): Promise<string> {
-  const { cwd = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath } = options
+export class Git {
+  constructor(private readonly channel: vscode.LogOutputChannel) {}
 
-  if (!cwd) {
-    throw new Error('No workspace folder open')
-  }
+  async run(args: string[], options: GitOptions = {}): Promise<void> {
+    const { cwd = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath } = options
 
-  const { stderr, stdout } = await spawnAsync('git', args, { cwd })
-  if (stderr && !stderr.includes('warning:')) {
-    throw new Error(stderr)
+    if (!cwd) {
+      throw new Error('No workspace folder open')
+    }
+
+    return new Promise<void>((resolve, reject) => {
+      this.channel.info(`Running "git ${args.join(' ')}" in ${cwd}`)
+
+      const child = spawn('git', args, {
+        cwd,
+        stdio: ['ignore', 'pipe', 'pipe'],
+      })
+
+      const interleaved = new PassThrough()
+      child.stdout?.pipe(interleaved)
+      child.stderr?.pipe(interleaved)
+
+      const rl = createInterface({ input: interleaved })
+
+      rl.on('line', (line) => {
+        this.channel.info(line)
+      })
+
+      child.on('close', (code) => {
+        if (code === 0) {
+          resolve()
+        } else {
+          reject(new Error(`Process exited with code ${code}`))
+        }
+      })
+    })
   }
-  return stdout
 }
