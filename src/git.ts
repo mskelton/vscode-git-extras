@@ -44,4 +44,44 @@ export class Git {
       })
     })
   }
+
+  async getOutput(args: string[], options: GitOptions = {}): Promise<string> {
+    const { cwd = vscode.workspace.workspaceFolders?.[0]?.uri.fsPath } = options
+
+    if (!cwd) {
+      throw new Error('No workspace folder open')
+    }
+
+    return new Promise<string>((resolve, reject) => {
+      this.channel.info(`Running "git ${args.join(' ')}" in ${cwd}`)
+
+      const child = spawn('git', args, {
+        cwd,
+        stdio: ['ignore', 'pipe', 'pipe'],
+      })
+
+      let stdout = ''
+      let stderr = ''
+
+      child.stdout?.on('data', (data) => {
+        stdout += data.toString()
+      })
+
+      child.stderr?.on('data', (data) => {
+        stderr += data.toString()
+      })
+
+      child.on('close', (code) => {
+        if (stderr) {
+          this.channel.info(stderr)
+        }
+
+        if (code === 0) {
+          resolve(stdout.trim())
+        } else {
+          reject(new Error(`Process exited with code ${code}`))
+        }
+      })
+    })
+  }
 }

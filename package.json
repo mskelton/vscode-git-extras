@@ -42,6 +42,11 @@
         "category": "Git Extras",
         "title": "Force Push with Lease",
         "command": "git-extras.push-force-with-lease"
+      },
+      {
+        "category": "Git Extras",
+        "title": "Checkout Default Branch",
+        "command": "git-extras.checkout-default-branch"
       }
     ]
   },
