@@ -1,10 +1,19 @@
 import { spawn } from 'node:child_process'
 import { createInterface } from 'node:readline'
-import { PassThrough } from 'node:stream'
+import { PassThrough, Readable } from 'node:stream'
 import * as vscode from 'vscode'
 
 export interface GitOptions {
   cwd?: string
+}
+
+export class GitError extends Error {
+  output: string
+
+  constructor(message: string, options: { output: string }) {
+    super(message)
+    this.output = options.output
+  }
 }
 
 export class Git {
@@ -26,8 +35,12 @@ export class Git {
       })
 
       const interleaved = new PassThrough()
+      const errorStream = new PassThrough()
+
       child.stdout?.pipe(interleaved)
       child.stderr?.pipe(interleaved)
+
+      interleaved.pipe(errorStream)
 
       const rl = createInterface({ input: interleaved })
 
@@ -39,7 +52,9 @@ export class Git {
         if (code === 0) {
           resolve()
         } else {
-          reject(new Error(`Process exited with code ${code}`))
+          getStream(errorStream)
+            .then((output) => reject(new GitError(`Process exited with code ${code}`, { output })))
+            .catch(reject)
         }
       })
     })
@@ -84,4 +99,22 @@ export class Git {
       })
     })
   }
+}
+
+function getStream(stream: Readable): Promise<string> {
+  return new Promise<string>((resolve, reject) => {
+    const data: Buffer[] = []
+
+    stream.on('data', (chunk) => {
+      data.push(chunk)
+    })
+
+    stream.on('end', () => {
+      resolve(data.join(''))
+    })
+
+    stream.on('error', (error) => {
+      reject(error)
+    })
+  })
 }

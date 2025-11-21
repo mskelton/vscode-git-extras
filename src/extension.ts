@@ -1,6 +1,6 @@
 import * as path from 'node:path'
 import * as vscode from 'vscode'
-import { Git } from './git'
+import { Git, GitError } from './git'
 
 export function activate(context: vscode.ExtensionContext) {
   const channel = vscode.window.createOutputChannel('Git Extras', { log: true })
@@ -31,9 +31,23 @@ export function activate(context: vscode.ExtensionContext) {
       })
     }),
     vscode.commands.registerCommand('git-extras.sync', async () => {
-      await withProgress('Syncing changes…', async () => {
-        await git.run(['add', '-A'])
+      await git.run(['add', '-A'])
+
+      try {
         await git.run(['commit', '-m', 'Sync'])
+      } catch (error) {
+        if (
+          error instanceof GitError &&
+          error.output.includes('nothing to commit, working tree clea')
+        ) {
+          vscode.window.showInformationMessage('No changes to commit')
+          return
+        }
+
+        throw error
+      }
+
+      await withProgress('Syncing changes…', async () => {
         await git.run(['push'])
       })
     }),
@@ -57,14 +71,16 @@ export function activate(context: vscode.ExtensionContext) {
 
 export function deactivate() {}
 
-function withProgress(title: string, callback: () => Promise<void>) {
+type Progress = vscode.Progress<{ increment: number; message: string }>
+
+function withProgress(title: string, task: (options: { progress: Progress }) => Promise<void>) {
   return vscode.window.withProgress(
     {
       cancellable: false,
       location: vscode.ProgressLocation.Notification,
       title,
     },
-    callback,
+    (progress) => task({ progress }),
   )
 }
 
