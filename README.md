@@ -10,6 +10,29 @@ Extra Git commands for VS Code
 - `Git Extras: Append` - Append changes to the last commit
 - `Git Extras: Push Force With Lease` - Run `git push --force-with-lease`
 - `Git Extras: Checkout Default Branch` - Checkout the default branch
+- `Git Extras: Copy Remote URL` - Copy a remote (e.g. GitHub) URL for the current file and
+  line/selection. With no file open, copies the repository URL.
+- `Git Extras: Open Blame` - Open the remote blame view for the current file and line.
+
+## Configuration
+
+GitHub is supported out of the box. To add support for other Git hosts, set `git-extras.remotes` in
+your VS Code settings:
+
+```json
+"git-extras.remotes": [
+  {
+    "regex": "^git@gitlab\\.com:(.+?)(?:\\.git)?$",
+    "repo": "https://gitlab.com/${1}",
+    "file": "https://gitlab.com/${1}/-/blob/${sha}/${file}${line}",
+    "blame": "https://gitlab.com/${1}/-/blame/${sha}/${file}${line}"
+  }
+]
+```
+
+Templates support `${1}`, `${2}`, ... for regex capture groups and `${sha}`, `${file}`, `${line}`
+for file/blame URLs. URLs always reference the current commit SHA so the links remain stable as
+branches move.
 
 ## Installation
 

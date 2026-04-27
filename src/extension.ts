@@ -1,6 +1,7 @@
 import * as path from 'node:path'
 import * as vscode from 'vscode'
 import { Git, GitError } from './git'
+import { buildFileUrl, buildRepoUrl } from './remote'
 
 export function activate(context: vscode.ExtensionContext) {
   const channel = vscode.window.createOutputChannel('Git Extras', { log: true })
@@ -50,6 +51,18 @@ export function activate(context: vscode.ExtensionContext) {
       await withProgress('Syncing changes…', async () => {
         await git.run(['push'])
       })
+    }),
+    vscode.commands.registerCommand('git-extras.copy-remote-url', async () => {
+      const url = vscode.window.activeTextEditor
+        ? await buildFileUrl(git, 'file')
+        : await buildRepoUrl(git)
+
+      await vscode.env.clipboard.writeText(url)
+      vscode.window.showInformationMessage('Copied URL to clipboard')
+    }),
+    vscode.commands.registerCommand('git-extras.open-blame', async () => {
+      const url = await buildFileUrl(git, 'blame')
+      await vscode.env.openExternal(vscode.Uri.parse(url))
     }),
     vscode.commands.registerCommand('git-extras.push-force-with-lease', async () => {
       const result = await vscode.window.showWarningMessage(

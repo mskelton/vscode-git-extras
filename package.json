@@ -47,8 +47,55 @@
         "category": "Git Extras",
         "title": "Checkout Default Branch",
         "command": "git-extras.checkout-default-branch"
+      },
+      {
+        "category": "Git Extras",
+        "title": "Copy Remote URL",
+        "command": "git-extras.copy-remote-url"
+      },
+      {
+        "category": "Git Extras",
+        "title": "Open Blame",
+        "command": "git-extras.open-blame"
       }
-    ]
+    ],
+    "configuration": {
+      "title": "Git Extras",
+      "properties": {
+        "git-extras.remotes": {
+          "type": "array",
+          "default": [],
+          "description": "Custom remote URL templates for hosts not natively supported. GitHub is built in. Templates support ${1}, ${2}, ... for regex capture groups, and ${sha}, ${file}, ${line} for file/blame URLs.",
+          "items": {
+            "type": "object",
+            "required": [
+              "regex",
+              "repo",
+              "file",
+              "blame"
+            ],
+            "properties": {
+              "regex": {
+                "type": "string",
+                "description": "Regex matched against the remote URL. Capture groups are referenced as ${1}, ${2}, ..."
+              },
+              "repo": {
+                "type": "string",
+                "description": "URL template for the repository root."
+              },
+              "file": {
+                "type": "string",
+                "description": "URL template for a file at a commit. Supports ${sha}, ${file}, ${line}."
+              },
+              "blame": {
+                "type": "string",
+                "description": "URL template for blame at a commit. Supports ${sha}, ${file}, ${line}."
+              }
+            }
+          }
+        }
+      }
+    }
   },
   "main": "./out/extension.js",
   "icon": "resources/icon.png",
