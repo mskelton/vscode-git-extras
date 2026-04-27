@@ -50,6 +50,11 @@
       },
       {
         "category": "Git Extras",
+        "title": "Checkout File from Default Branch",
+        "command": "git-extras.checkout-file-from-default-branch"
+      },
+      {
+        "category": "Git Extras",
         "title": "Copy Remote URL",
         "command": "git-extras.copy-remote-url"
       },

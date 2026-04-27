@@ -15,6 +15,20 @@ export function activate(context: vscode.ExtensionContext) {
         await checkoutDefault(git)
       })
     }),
+    vscode.commands.registerCommand('git-extras.checkout-file-from-default-branch', async () => {
+      const editor = vscode.window.activeTextEditor
+      if (!editor) {
+        throw new Error('No file is open')
+      }
+
+      const repoRoot = await git.getOutput(['rev-parse', '--show-toplevel'])
+      const filePath = path.relative(repoRoot, editor.document.uri.fsPath).split(path.sep).join('/')
+      const defaultBranch = await git.getOutput(['default'])
+
+      await withProgress(`Checking out ${filePath} from ${defaultBranch}…`, async () => {
+        await git.run(['checkout', defaultBranch, '--', filePath])
+      })
+    }),
     vscode.commands.registerCommand('git-extras.push', async () => {
       await withProgress('Pushing changes…', async () => {
         await git.run(['push'])

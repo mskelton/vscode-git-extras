@@ -4,15 +4,21 @@ Extra Git commands for VS Code
 
 ## Commands
 
-- `Git Extras: Push` - Push changes to the remote repository
-- `Git Extras: Pull` - Pull changes from the remote repository
-- `Git Extras: Sync` - Sync changes to the remote repository
-- `Git Extras: Append` - Append changes to the last commit
-- `Git Extras: Push Force With Lease` - Run `git push --force-with-lease`
-- `Git Extras: Checkout Default Branch` - Checkout the default branch
-- `Git Extras: Copy Remote URL` - Copy a remote (e.g. GitHub) URL for the current file and
-  line/selection. With no file open, copies the repository URL.
-- `Git Extras: Open Blame` - Open the remote blame view for the current file and line.
+- `Git Extras: Push` (`git-extras.push`) - Push changes to the remote repository
+- `Git Extras: Pull` (`git-extras.pull`) - Pull changes from the remote repository
+- `Git Extras: Sync` (`git-extras.sync`) - Sync changes to the remote repository
+- `Git Extras: Append` (`git-extras.append`) - Append changes to the last commit
+- `Git Extras: Force Push with Lease` (`git-extras.push-force-with-lease`) - Run
+  `git push --force-with-lease`
+- `Git Extras: Checkout Default Branch` (`git-extras.checkout-default-branch`) - Checkout the
+  default branch
+- `Git Extras: Checkout File from Default Branch`
+  (`git-extras.checkout-file-from-default-branch`) - Reset the current file to its version on the
+  default branch
+- `Git Extras: Copy Remote URL` (`git-extras.copy-remote-url`) - Copy a remote (e.g. GitHub) URL
+  for the current file and line/selection. With no file open, copies the repository URL.
+- `Git Extras: Open Blame` (`git-extras.open-blame`) - Open the remote blame view for the current
+  file and line.
 
 ## Configuration
 
